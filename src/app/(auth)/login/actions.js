@@ -7,8 +7,22 @@ export async function login(formData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  const supabase = createClient();
-  await supabase.auth.signInWithPassword({ email, password });
+  const supabase = await createClient();
+  
+  if (!supabase) {
+    console.error("Failed to create Supabase client");
+    throw new Error("Authentication service unavailable");
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
 
   redirect("/notes");
 }
