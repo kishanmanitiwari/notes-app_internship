@@ -1,16 +1,42 @@
 "use client";
 
-import { login } from "./actions";
+// TODO: Uncomment this import when you implement the backend
+// import { login } from "./actions";
 import { useActionState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+  
   const [state, formAction, isPending] = useActionState(async (prevState, formData) => {
-    try {
-      await login(formData);
-      return { error: null };
-    } catch (error) {
-      return { error: error.message };
-    }
+    // ============================================
+    // 🔴 BACKEND AUTH INTEGRATION POINT #1
+    // ============================================
+    // TODO: Replace this mock with actual auth call
+    // 
+    // When teaching, show students:
+    // 1. How to get email/password from formData
+    // 2. How to call the server action: await login(formData)
+    // 3. How to handle errors and redirect on success
+    
+    const email = formData.get("email");
+    const password = formData.get("password");
+    
+    console.log("📝 Form submitted:", { email, password });
+    
+    // MOCK: Simulating auth (remove this in real implementation)
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+    console.log("⚠️ MOCK: Authentication not implemented yet!");
+    return { error: "Authentication backend not connected yet" };
+    
+    // TODO: Replace mock with real implementation:
+    // try {
+    //   await login(formData);
+    //   router.push("/notes"); // Redirect on success
+    //   return { error: null };
+    // } catch (error) {
+    //   return { error: error.message };
+    // }
   }, { error: null });
 
   return (

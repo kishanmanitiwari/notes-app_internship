@@ -1,16 +1,42 @@
 "use client";
 
-import { signup } from "./actions";
+// TODO: Uncomment this import when you implement the backend
+// import { signup } from "./actions";
 import { useActionState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+  const router = useRouter();
+  
   const [state, formAction, isPending] = useActionState(async (prevState, formData) => {
-    try {
-      await signup(formData);
-      return { error: null };
-    } catch (error) {
-      return { error: error.message };
-    }
+    // ============================================
+    // 🔴 BACKEND AUTH INTEGRATION POINT #2
+    // ============================================
+    // TODO: Replace this mock with actual signup call
+    //
+    // When teaching, show students:
+    // 1. How signup differs from login (creates new user)
+    // 2. How to validate password requirements
+    // 3. How to handle email already exists errors
+    
+    const email = formData.get("email");
+    const password = formData.get("password");
+    
+    console.log("📝 Signup form submitted:", { email, password });
+    
+    // MOCK: Simulating signup (remove this in real implementation)
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+    console.log("⚠️ MOCK: Signup backend not implemented yet!");
+    return { error: "Signup backend not connected yet" };
+    
+    // TODO: Replace mock with real implementation:
+    // try {
+    //   await signup(formData);
+    //   router.push("/notes"); // Redirect on success
+    //   return { error: null };
+    // } catch (error) {
+    //   return { error: error.message };
+    // }
   }, { error: null });
 
   return (
